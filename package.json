@@ -1,0 +1,22 @@
+{
+  "name": "idweb-cli",
+  "version": "1.0.0",
+  "description": "npm for generating simple api",
+  "main": "bin/index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {},
+  "bin": {
+    "idweb": "./bin/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^6.0.0",
+    "figlet": "^1.5.0",
+    "inquirer": "^8.0.0",
+    "minimist": "^1.2.5",
+    "yargs": "^17.0.1"
+  }
+}
