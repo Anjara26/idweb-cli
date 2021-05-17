@@ -22,6 +22,4 @@ if (!files.directoryExists("./src/entity")) {
   process.exit();
 }
 
-files.getEntityNames(["abstract"]).then((res) => {
-  console.log(res);
-});
+files.testClass();
