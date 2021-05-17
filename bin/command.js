@@ -7,20 +7,26 @@ const usage = function () {
   
  usage:
 
-    $ ${primaryLog("idweb -g <options> -n [entity]")}
+    $ ${primaryLog("idweb <commands> <options> -n [entity]")}
   
  commands can be:
   
-    ${primaryLog("-g")} :      used to generate ${primaryLog("<options>")}
+    ${primaryLog("-g, --generate")} :      used to generate ${primaryLog(
+    "<options>"
+  )}
 
  options can be:
-    ${primaryLog("c")} :       used to generete ${primaryLog("controller")}
-    ${primaryLog("d")} :       used to generete ${primaryLog(
+    ${primaryLog("controller")} :       used to generete ${primaryLog(
+    "controller"
+  )}
+    ${primaryLog("dtos")} :       used to generete ${primaryLog(
     "dtos (Data Transfer Objects)"
   )}
-    ${primaryLog("i")} :       used to generete ${primaryLog("interface")}
-    ${primaryLog("r")} :       used to generete ${primaryLog("route")}
-    ${primaryLog("s")} :       used to generete ${primaryLog("service")}
+    ${primaryLog("interface")} :       used to generete ${primaryLog(
+    "interface"
+  )}
+    ${primaryLog("route")} :       used to generete ${primaryLog("route")}
+    ${primaryLog("service")} :       used to generete ${primaryLog("service")}
     ${primaryLog("")}  :       used to generete ${primaryLog(
     "API [interface, dtos, service, controller, route]"
   )}
