@@ -3,6 +3,7 @@ const path = require("path");
 const _ = require("lodash");
 const ts = require("typescript");
 
+const compiler = require("./compiler");
 const regex = require("./config/regex");
 
 const getCurrentDirectoryBase = () => {
@@ -29,7 +30,7 @@ const getEntityNames = (ignore = []) => {
       .then((files) => {
         files.forEach((file) => {
           const match = file.match(regex.R_ENTITY_NAME);
-          if (match) if (!ignore.includes(match[1])) entityNames.push(match[1]);
+          if (match) if (!ignore.includes(match[1])) entityNames.push(match);
         });
       })
       .catch((err) => {
@@ -40,43 +41,7 @@ const getEntityNames = (ignore = []) => {
 };
 
 const testClass = () => {
-  let files = readdirSync("./src/entity").filter((item) =>
-    _.includes(item, ".entity.ts")
-  );
-
-  let mods = new Map();
-  files.forEach((file) => {
-    let ex = [];
-    // https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API#using-the-type-checker
-    // Build a program using the set of root file names in fileNames
-    let program = ts.createProgram([`./src/entity/${file}`], {
-      module: ts.ModuleKind.ES2015,
-      moduleResolution: ts.ModuleResolutionKind.NodeJs,
-      target: ts.ScriptTarget.ES5,
-    });
-    // Get the checker, we will use it to find more about classes
-    let checker = program.getTypeChecker();
-    // Visit every sourceFile in the program
-    program
-      .getSourceFiles()
-      .filter((sourceFile) => _.includes(sourceFile.fileName, file))
-      .forEach((sourceFile) => {
-        // Walk the tree to search for classes
-        ts.forEachChild(sourceFile, (node) => {
-          if (node.kind === ts.SyntaxKind.ClassDeclaration) {
-            // This is a top level class, get its symbol
-            let symbol = checker.getSymbolAtLocation(node.name);
-            ex.push(symbol.getName());
-          }
-        });
-      });
-    mods.set(file, ex);
-  });
-
-  mods.forEach((value, key) => {
-    console.log(key); // my-a.service.ts
-    console.dir(value); // [ 'MyAService' ]
-  });
+  console.log(compiler.generateEntitysJSON()[1]);
 };
 
 module.exports = {
