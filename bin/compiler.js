@@ -1,6 +1,5 @@
 const _ = require("lodash");
 const ts = require("typescript");
-const fs = require("fs");
 
 // Build a program using the set of root file names in fileNames
 const createProgram = (filePath) => {
@@ -14,28 +13,8 @@ const createProgram = (filePath) => {
   return program;
 };
 
-const serializeAttribute = (members, checker) => {
-  let attributes = [];
-
-  members.forEach((member) => {
-    attributes.push({
-      name: member.getName(),
-      type: checker.typeToString(
-        checker.getTypeOfSymbolAtLocation(member, member.valueDeclaration)
-      ),
-    });
-    //get type if type is created by the developper member.getDeclarations()[0].getText();
-  });
-
-  return attributes;
-};
-
-const generateEntitysJSON = () => {
+const getAllClasses = (files) => {
   let listClass = [];
-
-  let files = fs
-    .readdirSync("./src/entity")
-    .filter((item) => _.includes(item, ".entity.ts"));
 
   files.forEach((file) => {
     let program = createProgram(`./src/entity/${file}`);
@@ -60,6 +39,22 @@ const generateEntitysJSON = () => {
   return listClass;
 };
 
+const serializeAttribute = (members, checker) => {
+  let attributes = [];
+
+  members.forEach((member) => {
+    attributes.push({
+      name: member.getName(),
+      type: checker.typeToString(
+        checker.getTypeOfSymbolAtLocation(member, member.valueDeclaration)
+      ),
+    });
+    //get type if type is created by the developper member.getDeclarations()[0].getText();
+  });
+
+  return attributes;
+};
+
 module.exports = {
-  generateEntitysJSON,
+  getAllClasses,
 };
