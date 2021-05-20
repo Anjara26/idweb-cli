@@ -22,4 +22,4 @@ if (!files.directoryExists("./src/entity")) {
   process.exit();
 }
 
-files.testClass();
+files.generateTemplate();

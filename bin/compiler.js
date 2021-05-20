@@ -27,8 +27,8 @@ const getAllClasses = (files) => {
           if (ts.isClassDeclaration(node) && node.name) {
             let symbol = checker.getSymbolAtLocation(node.name);
             listClass.push({
-              file: file,
-              className: symbol.getName(),
+              file: file.replace(".entity.ts", ""),
+              className: symbol.getName().replace("Entity", ""),
               attributes: serializeAttribute(symbol.members, checker),
             });
           }
@@ -40,14 +40,22 @@ const getAllClasses = (files) => {
 };
 
 const serializeAttribute = (members, checker) => {
-  let attributes = [];
+  let attributes = {
+    imports: [],
+    list: [],
+  };
 
   members.forEach((member) => {
-    attributes.push({
+    let type = checker.typeToString(
+      checker.getTypeOfSymbolAtLocation(member, member.valueDeclaration)
+    );
+
+    if (type.includes("Entity"))
+      attributes.imports.push(type.replace("Entity", "").replace("[]", ""));
+
+    attributes.list.push({
       name: member.getName(),
-      type: checker.typeToString(
-        checker.getTypeOfSymbolAtLocation(member, member.valueDeclaration)
-      ),
+      type: type.replace("Entity", ""),
     });
     //get type if type is created by the developper member.getDeclarations()[0].getText();
   });

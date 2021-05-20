@@ -1,4 +1,4 @@
-const { existsSync, readdirSync } = require("fs");
+const { existsSync, readdirSync, writeFile } = require("fs");
 const path = require("path");
 
 const compiler = require("./compiler");
@@ -10,6 +10,12 @@ const getCurrentDirectoryBase = () => {
 
 const directoryExists = (filePath) => {
   return existsSync(filePath);
+};
+
+const createFile = (path, content) => {
+  writeFile(path, content, function (err) {
+    if (err) console.log(err);
+  });
 };
 
 const directoryFileList = (path, fileKey, ignoreFileName = []) => {
@@ -36,15 +42,28 @@ const directoryFileList = (path, fileKey, ignoreFileName = []) => {
 //   });
 // };
 
-const testClass = () => {
-  console.log(
-    compiler.getAllClasses(directoryFileList("./src/entity/", ".entity.ts"))
+const generateTemplate = async (types = []) => {
+  if (types.length === 0)
+    types = ["service", "route", "controller", "interface"];
+
+  const classes = compiler.getAllClasses(
+    directoryFileList("./src/entity/", ".entity.ts")
   );
+
+  types.forEach((type) => {
+    const template = require(`./${type}.template`);
+    classes.forEach((classObject) => {
+      // createFile(
+      //   `src/${type}s/${classObject.file}.${type}.ts`,
+      //   template.codeTemplate(classObject)
+      // );
+    });
+  });
 };
 
 module.exports = {
   getCurrentDirectoryBase,
   directoryExists,
   directoryFileList,
-  testClass,
+  generateTemplate,
 };
