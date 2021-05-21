@@ -4,22 +4,20 @@ const chalk = require("chalk");
 const clear = require("clear");
 const figlet = require("figlet");
 
-const files = require("./files");
+const command = require("./command");
+const args = process.argv;
 
 //clear screen
 clear();
 
 //display banner
+//  ___       _   ___  __        __         _
+// |_ _|   __| | |__ \ \ \      / /   ___  | |__
+//  | |   / _` |   / /  \ \ /\ / /   / _ \ | '_ \
+//  | |  | (_| |  |_|    \ V  V /   |  __/ | |_) |
+// |___|  \__,_|  (_)     \_/\_/     \___| |_.__/
 console.log(
   chalk.yellow(figlet.textSync("Id?Web", { horizontalLayout: "full" }))
 );
 
-// check the current folder have entity folder
-if (!files.directoryExists("./src/entity")) {
-  console.log(
-    chalk.red("No entity folder. Check that you are in a id?web's template")
-  );
-  process.exit();
-}
-
-files.generateTemplate();
+command.commandInterpreter(args);
