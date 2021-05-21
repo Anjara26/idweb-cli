@@ -1,9 +1,9 @@
 {
-  "name": "idweb-cli",
-  "version": "1.0.0",
-  "description": "npm for generating simple api",
+  "name": "@anjara/idweb-cli",
+  "version": "1.0.0-beta",
+  "description": "npm for generating simple api (id?web)",
   "main": "bin/index.js",
-  "author": "",
+  "author": "Anjara RAMANANTSOA",
   "license": "ISC",
   "scripts": {},
   "bin": {
